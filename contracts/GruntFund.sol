@@ -2,10 +2,18 @@ pragma solidity ^0.4.4;
   
 contract GruntFund {
 
-    uint totalPie;
-    uint wellBalance;
-    
-    account constant NO_ACCOUNT = account(0);
+    bytes32 constant NOMINAL_CURRENCY = "USD";
+    uint constant MULTIPLIER_NONCASH_PER100 = 200;
+    uint constant MULTIPLIER_CASH_PER100 = 400;
+    uint16 royaltyRate_per10000 = 500;
+    uint32 findersFee_cutoff = 0;
+    uint16 findersFee_preCutoffRate_per10000 = 0;
+    uint16 findersFee_postCutoffRate_per10000 = 0;
+    bytes32 teamName;
+    uint pieSlices = 0;
+    uint wellValue = 0;
+
+    address constant NO_ACCOUNT = address(0);
     int24 constant NO_TIMESTAMP = int24(0);
     int16 constant MAX_DURATION = int16(4193280); // 8 years.
     uint constant GLOBAL_TIME_UNIT = 1 minutes;
@@ -18,8 +26,16 @@ contract GruntFund {
         int16 baseRate;  // Theoretical hourly wage for this timespan.
     }
     
-    address[] Grunt_accounts;
-    struct Grunt {
+    address[] teamMemberAccounts;
+
+    enum UserRole { Owner, Employee, Executive, Advisor }
+    struct TeamMember {
+        bytes32 name;
+        bytes32 email_localPart;
+        bytes32 email_domain;
+        uint wage;
+        UserRole role;
+
         address controllingAccount; // Ethereum acct of this grunt.
         
         // (Hashes of) 32-byte chunks of Personally Identifiable Information (PII)
@@ -45,12 +61,42 @@ contract GruntFund {
         uint WorkLog_nextIndex;
         
         uint paidIntoWell;
-        uint totalPayReceived;;
+        uint totalPayReceived;
     }
     
-    function GruntFund(uint totalPie_, uint wellBalance_) {
-	totalPie = totalPie_;
-	wellBalance = wellBalance_;
+    enum ContributionType {
+        Time,
+        PersonalCar,
+        Expenses,
+        Supplies,
+        Equipment,
+        Sales,
+        Royalty,
+        Facilities,
+        FindersFee,
+        Other
     }
+    
+    function GruntFund(uint totalPie_, uint wellBalance_) public {
+    }
+
+    function addFundsToWell(uint amount) external {
+    }
+
+    function drawFundsFromWell(uint amount) external {
+    }
+
+    function addTeamMember(
+        bytes32 name_,
+        bytes32 email_localPart_,
+        bytes32 email_domain_,
+        uint fairMarketSalary,
+        UserRole role_
+    ) external {
+    }
+
+    function addContribution() external {
+    }
+
 }
 
